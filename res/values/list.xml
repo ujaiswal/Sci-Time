@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="sections">
+	    <item name ="1">@string/title_section1</item>
+	    <item name ="2">@string/title_section2</item>
+	    <item name ="3">@string/title_section3</item>
+	</string-array>    
+</resources>
