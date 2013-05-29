@@ -1,9 +1,8 @@
-<com.akaashiitkgp.sci_time.view.viewgroup.LayoutContainer
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.akaashiitkgp.sci_time.view.viewgroup.LayoutContainer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingTop="0dp" >
 
     <LinearLayout
@@ -101,6 +100,16 @@
 	            android:layout_height="fill_parent"
 	            android:layout_alignParentTop="true"
 	            android:src="@drawable/action_bar_divider_vertical" />
+
+	        <ListView
+	            android:id="@+id/TableList"
+	            android:divider="@color/Transparent"
+	            android:layout_width="match_parent"
+	            android:layout_height="fill_parent"
+	            android:layout_toRightOf="@+id/divider_vertical" >
+
+	        </ListView>
+
 	    </RelativeLayout>
 	    
 	</LinearLayout>
