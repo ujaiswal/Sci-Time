@@ -9,7 +9,8 @@
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:gravity="center_vertical" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

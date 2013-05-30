@@ -25,7 +25,7 @@
 	        android:id="@+id/list"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content" 
-	        android:listSelector="@drawable/selection_background"
+	        android:listSelector="@drawable/list_item_selection_background"
 	        android:divider="@drawable/list_view_divider_horizontal" >
 	    </ListView>
 	    
@@ -61,7 +61,7 @@
 	            android:id="@+id/button_menu"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:background="@drawable/selection_background"
+	            android:background="@drawable/menu_selection_background"
 	            android:clickable="true"
 	            android:contentDescription="@string/action_settings"
 	            android:paddingBottom="9dp"
@@ -100,15 +100,6 @@
 	            android:layout_height="fill_parent"
 	            android:layout_alignParentTop="true"
 	            android:src="@drawable/action_bar_divider_vertical" />
-
-	        <ListView
-	            android:id="@+id/TableList"
-	            android:divider="@color/Transparent"
-	            android:layout_width="match_parent"
-	            android:layout_height="fill_parent"
-	            android:layout_toRightOf="@+id/divider_vertical" >
-
-	        </ListView>
 
 	    </RelativeLayout>
 	    

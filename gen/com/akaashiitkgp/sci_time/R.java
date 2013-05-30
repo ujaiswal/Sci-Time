@@ -37,13 +37,13 @@ public final class R {
         public static final int content_background=0x7f020002;
         public static final int ic_launcher=0x7f020003;
         public static final int ic_menu=0x7f020004;
-        public static final int list_view_divider_horizontal=0x7f020005;
-        public static final int selection_background=0x7f020006;
-        public static final int title=0x7f020007;
+        public static final int list_item_selection_background=0x7f020005;
+        public static final int list_view_divider_horizontal=0x7f020006;
+        public static final int menu_selection_background=0x7f020007;
+        public static final int title=0x7f020008;
     }
     public static final class id {
-        public static final int TableList=0x7f090005;
-        public static final int TableListItem=0x7f090006;
+        public static final int TableListItem=0x7f090005;
         public static final int button_menu=0x7f090001;
         public static final int divider_horizontal=0x7f090002;
         public static final int divider_vertical=0x7f090004;

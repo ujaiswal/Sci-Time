@@ -33,7 +33,7 @@ public class LayoutContainer extends LinearLayout {
 	 * Animation objects.
 	 */
 	protected Scroller MenuAnimationScroller = new Scroller(this.getContext(), new SmoothInterpolator());
-	protected Runnable MenuAnnimationRunnable = new AnimationRunnable();
+	protected Runnable MenuAnimationRunnable = new AnimationRunnable();
 	protected Handler MenuAnimationHandler = new Handler();
 	
 	/**
@@ -124,7 +124,7 @@ public class LayoutContainer extends LinearLayout {
 			return;
 		}
 		
-		this.MenuAnimationHandler.postDelayed(this.MenuAnnimationRunnable, MENU_ANIMATION_POLLING_INTERVAL);
+		this.MenuAnimationHandler.postDelayed(this.MenuAnimationRunnable, MENU_ANIMATION_POLLING_INTERVAL);
 	}
 	
 	protected class SmoothInterpolator implements Interpolator {
@@ -155,7 +155,7 @@ public class LayoutContainer extends LinearLayout {
 		this.invalidate();
 		
 		if(isAnimationOngoing) {
-			this.MenuAnimationHandler.postDelayed(this.MenuAnnimationRunnable, MENU_ANIMATION_POLLING_INTERVAL);
+			this.MenuAnimationHandler.postDelayed(this.MenuAnimationRunnable, MENU_ANIMATION_POLLING_INTERVAL);
 		}
 		else {
 			this.onMenuTransitionComplete();
