@@ -15,6 +15,12 @@ Salient Features
 *  UI features
  * Slide in application menu
 
+Usage
+-----
+* Import the android project.
+* Copy `android-sqlite-asset-helper.jar` from the repository [android-sqlite-asset-helper](https://github.com/jgilfelt/android-sqlite-asset-helper) into your project's `libs` directory.
+* Add the library to your project's build path.
+
 Installation
 ------------
 Download [Sci-Time.apk](https://github.com/ujaiswaliit/Sci-Time/blob/master/bin/Sci-Time.apk?raw=true) from the repository and install it in your phone/tablet.  
