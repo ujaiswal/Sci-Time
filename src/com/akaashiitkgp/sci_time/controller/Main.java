@@ -1,6 +1,7 @@
 package com.akaashiitkgp.sci_time.controller;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,9 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.akaashiitkgp.sci_time.R;
+import com.akaashiitkgp.sci_time.view.viewgroup.FragmentContainer.FragmentContainerListener;
 import com.akaashiitkgp.sci_time.view.viewgroup.LayoutContainer;
 
-public class Main extends Activity implements OnClickListener {
+public class Main extends Activity implements OnClickListener, FragmentContainerListener {
 
 	/**
 	 * The application
@@ -40,7 +42,7 @@ public class Main extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		root = (LayoutContainer) this.getLayoutInflater().inflate(R.layout.main, null);
 		
 		setContentView(this.root);
@@ -48,9 +50,10 @@ public class Main extends Activity implements OnClickListener {
 		application = (Sci_Time) getApplicationContext();
 		
 		
-		// Set up header
+		// Set up fonts
+		Typeface app_font = Typeface.createFromAsset(getAssets(), "fonts/neuropol_x.ttf");
 		header = (TextView) findViewById(R.id.header);
-		header.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/neuropol_x.ttf"));
+		header.setTypeface(app_font);
 		
 		// Set up the settings button
 		menu = (ImageView) findViewById(R.id.button_menu);
@@ -59,6 +62,7 @@ public class Main extends Activity implements OnClickListener {
 		// Set up list view of menu.
 		menuList = (ListView) findViewById(R.id.list);
 		menuList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sections)));
+
 	}
 
 	// Click handlers for buttons in the view
@@ -82,4 +86,22 @@ public class Main extends Activity implements OnClickListener {
 		}
 		return super.onKeyUp(keyCode, event);
 	}
+	
+	@Override
+	public Cursor getYearRanges() {
+		return application.getYearRanges();
+	}
+
+	@Override
+	public Cursor getDiscoveries(String yearRange) {
+		return application.getDiscoveries(yearRange);
+	}
+	
+	// Disposing of everything
+	@Override
+	public void finish() {
+		super.finish();
+		application.closeDatabase();
+	}
+
 }

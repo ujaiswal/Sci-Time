@@ -3,5 +3,8 @@
 
     <string name="app_name">Sci-Time</string>
     <string name="action_settings">Settings</string>
+    <string name="list_year">Year</string>
+    <string name="list_discovery">Discovery</string>
+    <string name="list_discoverer">Discovered by</string>
 
 </resources>
