@@ -18,7 +18,7 @@ Salient Features
 Usage
 -----
 * Import the android project.
-* Copy `android-sqlite-asset-helper.jar` from the repository [android-sqlite-asset-helper](https://github.com/jgilfelt/android-sqlite-asset-helper) into your project's `libs` directory.
+* Download `android-sqlite-asset-helper.jar` from the repository [android-sqlite-asset-helper](https://github.com/jgilfelt/android-sqlite-asset-helper) and copy it into your project's `libs` directory.
 * Add the library to your project's build path.
 
 Installation

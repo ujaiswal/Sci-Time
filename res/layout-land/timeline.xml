@@ -2,17 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/listContainer"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="10dp" >
+    android:layout_height="fill_parent" >
 
     <ListView
         android:id="@+id/listYear"
         android:layout_width="@dimen/year_list_width_landscape"
         android:layout_height="fill_parent"
-        android:layout_marginRight="10dp"
         android:background="@drawable/year_list_background"
-        android:divider="@color/Transparent"
-        android:listSelector="@drawable/list_item_selection_background" />
+        android:divider="@drawable/list_view_divider_horizontal" />
 
     <ListView
         android:id="@+id/listDiscovery"

@@ -6,4 +6,8 @@
     <color name="Gray">#707070</color>
     <color name="DarkGray">#383838</color>
     <color name="LightGray">#ababab</color>
+    <color name="Blue">#01598b</color>
+    <color name="LightBlue">#017dc5</color>
+    <color name="DarkBlue">#003d60</color>
+    <color name="DarkerBlue">#00283f</color>
 </resources>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.akaashiitkgp.sci_time.R;
 
-public class FragmentContainer extends Fragment implements OnItemClickListener {
+public class ContentFragment extends Fragment implements OnItemClickListener {
 	
 	/**
 	 * The list view of year ranges;
@@ -28,7 +27,7 @@ public class FragmentContainer extends Fragment implements OnItemClickListener {
 	ListView discoveryList;
 	SimpleCursorAdapter discoveryListAdapter;
 	
-	private FragmentContainerListener listener;
+	private ContentFragmentListener listener;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +54,8 @@ public class FragmentContainer extends Fragment implements OnItemClickListener {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		
-		 if (activity instanceof FragmentContainerListener) {
-			 listener = (FragmentContainerListener) activity;
+		 if (activity instanceof ContentFragmentListener) {
+			 listener = (ContentFragmentListener) activity;
 			 }
 		 else {
 			 throw new ClassCastException(activity.toString() + " must implemenet MyListFragment.OnItemSelectedListener");
@@ -78,7 +77,7 @@ public class FragmentContainer extends Fragment implements OnItemClickListener {
 		discoveryList.setAdapter(discoveryListAdapter);
 	}
 	
-	public interface FragmentContainerListener {
+	public interface ContentFragmentListener {
 		public Cursor getYearRanges();
 		public Cursor getDiscoveries(String yearRange);
 	}
@@ -87,7 +86,6 @@ public class FragmentContainer extends Fragment implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Cursor c = (Cursor) parent.getItemAtPosition(position);
-			Log.d("Clicked list item!!", "Postion: " + position + " Table name: " + c.getString(1));
 			discoveryListAdapter.changeCursor(listener.getDiscoveries(c.getString(1)));		
 		}
 

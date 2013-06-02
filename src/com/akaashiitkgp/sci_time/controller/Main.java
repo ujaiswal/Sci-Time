@@ -7,16 +7,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.akaashiitkgp.sci_time.R;
-import com.akaashiitkgp.sci_time.view.viewgroup.FragmentContainer.FragmentContainerListener;
+import com.akaashiitkgp.sci_time.view.viewgroup.ContentFragment.ContentFragmentListener;
 import com.akaashiitkgp.sci_time.view.viewgroup.LayoutContainer;
 
-public class Main extends Activity implements OnClickListener, FragmentContainerListener {
+public class Main extends Activity implements OnClickListener, ContentFragmentListener {
 
 	/**
 	 * The application
@@ -30,10 +28,6 @@ public class Main extends Activity implements OnClickListener, FragmentContainer
 	 * The action settings image view will inflate the settings menu on click.
 	 */
 	ImageView menu;
-	/**
-	 * The list view of menu.
-	 */
-	ListView menuList;
 	/**
 	 * Header text
 	 */
@@ -58,10 +52,6 @@ public class Main extends Activity implements OnClickListener, FragmentContainer
 		// Set up the settings button
 		menu = (ImageView) findViewById(R.id.button_menu);
 		menu.setOnClickListener(this);
-		
-		// Set up list view of menu.
-		menuList = (ListView) findViewById(R.id.list);
-		menuList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sections)));
 
 	}
 
