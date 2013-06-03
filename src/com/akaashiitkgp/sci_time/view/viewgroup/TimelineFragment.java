@@ -3,6 +3,7 @@ package com.akaashiitkgp.sci_time.view.viewgroup;
 import android.app.Activity;
 import android.app.Fragment;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.akaashiitkgp.sci_time.R;
 
-public class ContentFragment extends Fragment implements OnItemClickListener {
+public class TimelineFragment extends Fragment implements OnItemClickListener {
 	
 	/**
 	 * The list view of year ranges;
@@ -26,6 +28,8 @@ public class ContentFragment extends Fragment implements OnItemClickListener {
 	 */
 	ListView discoveryList;
 	SimpleCursorAdapter discoveryListAdapter;
+	
+	TextView fragmentHeading;
 	
 	private ContentFragmentListener listener;
 	
@@ -46,6 +50,9 @@ public class ContentFragment extends Fragment implements OnItemClickListener {
 		
 		// Set up list view of discoveries.
 		discoveryList = (ListView) fragmentView.findViewById(R.id.listDiscovery);
+		
+		fragmentHeading = (TextView) fragmentView.findViewById(R.id.text_fragment_timeline);
+		fragmentHeading.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/neuropol_x.ttf"));
 		
 		return fragmentView;
 	}

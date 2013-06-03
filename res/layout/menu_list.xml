@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:src="@drawable/ic_timeline" />
         
         <ImageView 
@@ -36,15 +36,14 @@
             android:src="@drawable/list_view_divider_horizontal"/>
 
         <TextView
+            android:id="@+id/text_timeline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/imageView1"
             android:text="@string/text_timeline"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/White"
-            android:typeface="serif" />
+            android:textColor="@color/White" />
 
     </RelativeLayout>
     
@@ -66,19 +65,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:src="@drawable/ic_discovery_tree" />
 
         <TextView
+            android:id="@+id/text_discovery_tree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/imageView2"
             android:text="@string/text_discovery_tree"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/White"
-            android:typeface="serif" />
+            android:textColor="@color/White" />
 
     </RelativeLayout>
     
@@ -94,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:src="@drawable/ic_about" />
 
         <ImageView
@@ -104,15 +102,14 @@
             android:src="@drawable/list_view_divider_horizontal" />
 
         <TextView
+            android:id="@+id/text_about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/imageView3"
             android:text="@string/text_about"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/White"
-            android:typeface="serif" />
+            android:textColor="@color/White" />
     </RelativeLayout>
 
 </LinearLayout>

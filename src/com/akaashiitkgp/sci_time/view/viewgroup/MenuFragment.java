@@ -2,31 +2,33 @@ package com.akaashiitkgp.sci_time.view.viewgroup;
 
 import android.app.Fragment;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.akaashiitkgp.sci_time.R;
 
 public class MenuFragment extends Fragment implements OnClickListener {
 	
-	private enum MenuItem {
-		TIMELINE, DISCOVERY_TREE, ABOUT
-	}
-	
 	public interface MenuFragmentListener {
-		
+		public void changeFragment();
 	}
 	
-	private MenuItem selectedMenuItem = MenuItem.TIMELINE;
+	private int selectedMenuItem = R.id.tab_timeline;
 	private MenuFragmentListener listener;
 	
 	RelativeLayout timeline;
 	RelativeLayout discovery_tree;
 	RelativeLayout about;
+	
+	TextView text_timeline;
+	TextView text_discovery_tree;
+	TextView text_about;
 	
 	View fragmentView;
 	
@@ -50,7 +52,18 @@ public class MenuFragment extends Fragment implements OnClickListener {
 		about = (RelativeLayout) fragmentView.findViewById(R.id.tab_about);
 		about.setOnClickListener(this);
 		
-		onItemSelect();
+		Typeface app_font = Typeface.createFromAsset(getResources().getAssets(), "fonts/neuropol_x.ttf");
+		
+		text_timeline = (TextView) fragmentView.findViewById(R.id.text_timeline);
+		text_timeline.setTypeface(app_font);
+		
+		text_discovery_tree = (TextView) fragmentView.findViewById(R.id.text_discovery_tree);
+		text_discovery_tree.setTypeface(app_font);
+		
+		text_about = (TextView) fragmentView.findViewById(R.id.text_about);
+		text_about.setTypeface(app_font);
+		
+		fragmentView.findViewById(selectedMenuItem).setBackgroundColor(getResources().getColor(R.color.DarkerBlue));
 		
 		return fragmentView;
 	}
@@ -63,48 +76,33 @@ public class MenuFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
+		
+		Resources res = getResources();
+		int viewId = v.getId();
+		
+		if(viewId == selectedMenuItem) {
+			return;
+		}
+		
+		switch (viewId) {
 		case R.id.tab_timeline:
-			selectedMenuItem = MenuItem.TIMELINE;
-			onItemSelect();
+			fragmentView.findViewById(selectedMenuItem).setBackgroundColor(res.getColor(R.color.Transparent));
+			timeline.setBackgroundColor(res.getColor(R.color.DarkerBlue));
+			selectedMenuItem = R.id.tab_timeline;
 			break;
 		case R.id.tab_discovery_tree:
-			selectedMenuItem = MenuItem.DISCOVERY_TREE;
-			onItemSelect();
+			fragmentView.findViewById(selectedMenuItem).setBackgroundColor(res.getColor(R.color.Transparent));
+			discovery_tree.setBackgroundColor(res.getColor(R.color.DarkerBlue));
+			selectedMenuItem = R.id.tab_discovery_tree;
 			break;
 		case R.id.tab_about:
-			selectedMenuItem = MenuItem.ABOUT;
-			onItemSelect();
-			break;
-		default:
-			break;
-		}
-	}
-	
-	
-	private void onItemSelect() {
-		Resources res = getResources();
-		
-		switch (selectedMenuItem) {
-		case TIMELINE:
-			timeline.setBackgroundColor(res.getColor(R.color.DarkerBlue));
-			discovery_tree.setBackgroundColor(res.getColor(R.color.Transparent));
-			about.setBackgroundColor(res.getColor(R.color.Transparent));
-			break;
-		case DISCOVERY_TREE:
-			timeline.setBackgroundColor(res.getColor(R.color.Transparent));
-			discovery_tree.setBackgroundColor(res.getColor(R.color.DarkerBlue));
-			about.setBackgroundColor(res.getColor(R.color.Transparent));
-			break;
-		case ABOUT:
-			timeline.setBackgroundColor(res.getColor(R.color.Transparent));
-			discovery_tree.setBackgroundColor(res.getColor(R.color.Transparent));
+			fragmentView.findViewById(selectedMenuItem).setBackgroundColor(res.getColor(R.color.Transparent));
 			about.setBackgroundColor(res.getColor(R.color.DarkerBlue));
+			selectedMenuItem = R.id.tab_about;
 			break;
 		default:
 			break;
 		}
-		
-		fragmentView.invalidate();
 	}
+	
 }

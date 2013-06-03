@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.akaashiitkgp.sci_time.R;
-import com.akaashiitkgp.sci_time.view.viewgroup.ContentFragment.ContentFragmentListener;
+import com.akaashiitkgp.sci_time.view.viewgroup.TimelineFragment.ContentFragmentListener;
 import com.akaashiitkgp.sci_time.view.viewgroup.LayoutContainer;
+import com.akaashiitkgp.sci_time.view.viewgroup.TimelineFragment;
 
 public class Main extends Activity implements OnClickListener, ContentFragmentListener {
 
@@ -43,7 +44,6 @@ public class Main extends Activity implements OnClickListener, ContentFragmentLi
 		// Set up application
 		application = (Sci_Time) getApplicationContext();
 		
-		
 		// Set up fonts
 		Typeface app_font = Typeface.createFromAsset(getAssets(), "fonts/neuropol_x.ttf");
 		header = (TextView) findViewById(R.id.header);
@@ -52,6 +52,13 @@ public class Main extends Activity implements OnClickListener, ContentFragmentLi
 		// Set up the settings button
 		menu = (ImageView) findViewById(R.id.button_menu);
 		menu.setOnClickListener(this);
+		
+		if(savedInstanceState != null) {
+			return;
+		}
+		
+		TimelineFragment firstFragment = new TimelineFragment();
+		getFragmentManager().beginTransaction().add(R.id.fragmentContainer, firstFragment).commit();
 
 	}
 
