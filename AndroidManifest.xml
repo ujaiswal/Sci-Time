@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.akaashiitkgp.sci_time"
+    package="com.aakashiitkgp.sci_time"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -9,13 +9,13 @@
         android:targetSdkVersion="15" />
 
     <application
-        android:name="com.akaashiitkgp.sci_time.controller.Sci_Time"
+        android:name="com.aakashiitkgp.sci_time.controller.Sci_Time"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.akaashiitkgp.sci_time.controller.Main"
+            android:name="com.aakashiitkgp.sci_time.controller.Main"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

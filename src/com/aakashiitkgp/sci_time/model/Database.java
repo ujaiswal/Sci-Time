@@ -1,4 +1,4 @@
-package com.akaashiitkgp.sci_time.model;
+package com.aakashiitkgp.sci_time.model;
 
 import android.content.Context;
 import android.database.Cursor;

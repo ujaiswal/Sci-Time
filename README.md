@@ -1,11 +1,11 @@
 Sci-Time
 =======
-#### Akaash Project
+#### Aakash Project
 #### IIT Kharagpur
 
 Description
 -----------
-The project aims at developing educational applications specifically for Akaash Tablet.  
+The project aims at developing educational applications specifically for Aakash Tablet.  
 Sci-Time is an android application for viewing history of scientific discoveries and inventions in the form of a timeline.  
 
 Salient Features

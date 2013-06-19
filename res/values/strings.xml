@@ -9,5 +9,8 @@
     <string name="text_timeline">Timeline</string>
     <string name="text_discovery_tree">D-Tree</string>
     <string name="text_about">About</string>
+    <string name="aakash_project">Aakash Project\n\nIIT Kharagpur</string>
+    <string name="Aakash_about">The project aims at developing educational applications specifically for Aakash Tablet.
+Sci-Time is an android application for viewing history of scientific discoveries and inventions in the form of a timeline.</string>
 
 </resources>

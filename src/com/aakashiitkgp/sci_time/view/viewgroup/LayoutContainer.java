@@ -1,4 +1,4 @@
-package com.akaashiitkgp.sci_time.view.viewgroup;
+package com.aakashiitkgp.sci_time.view.viewgroup;
 
 import android.content.Context;
 import android.content.res.Configuration;

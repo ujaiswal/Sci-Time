@@ -1,5 +1,6 @@
-package com.akaashiitkgp.sci_time.view.viewgroup;
+package com.aakashiitkgp.sci_time.view.viewgroup;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -11,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.akaashiitkgp.sci_time.R;
+import com.aakashiitkgp.sci_time.R;
 
 public class MenuFragment extends Fragment implements OnClickListener {
 	
 	public interface MenuFragmentListener {
-		public void changeFragment();
+		
+		public void changeFragment(int selectedFragment);
 	}
 	
 	private int selectedMenuItem = R.id.tab_timeline;
@@ -69,6 +71,18 @@ public class MenuFragment extends Fragment implements OnClickListener {
 	}
 	
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		if (activity instanceof MenuFragmentListener) {
+			 listener = (MenuFragmentListener) activity;
+			 }
+		 else {
+			 throw new ClassCastException(activity.toString() + " must implemenet MenuFragmentListener");
+			 }
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
@@ -88,17 +102,20 @@ public class MenuFragment extends Fragment implements OnClickListener {
 		case R.id.tab_timeline:
 			fragmentView.findViewById(selectedMenuItem).setBackgroundColor(res.getColor(R.color.Transparent));
 			timeline.setBackgroundColor(res.getColor(R.color.DarkerBlue));
-			selectedMenuItem = R.id.tab_timeline;
+			selectedMenuItem = viewId;
+			listener.changeFragment(selectedMenuItem);
 			break;
 		case R.id.tab_discovery_tree:
 			fragmentView.findViewById(selectedMenuItem).setBackgroundColor(res.getColor(R.color.Transparent));
 			discovery_tree.setBackgroundColor(res.getColor(R.color.DarkerBlue));
-			selectedMenuItem = R.id.tab_discovery_tree;
+			selectedMenuItem = viewId;
+			listener.changeFragment(selectedMenuItem);
 			break;
 		case R.id.tab_about:
 			fragmentView.findViewById(selectedMenuItem).setBackgroundColor(res.getColor(R.color.Transparent));
 			about.setBackgroundColor(res.getColor(R.color.DarkerBlue));
-			selectedMenuItem = R.id.tab_about;
+			selectedMenuItem = viewId;
+			listener.changeFragment(selectedMenuItem);
 			break;
 		default:
 			break;
