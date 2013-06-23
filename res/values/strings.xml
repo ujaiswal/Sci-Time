@@ -12,5 +12,5 @@
     <string name="aakash_project">Aakash Project\n\nIIT Kharagpur</string>
     <string name="Aakash_about">The project aims at developing educational applications specifically for Aakash Tablet.
 Sci-Time is an android application for viewing history of scientific discoveries and inventions in the form of a timeline.</string>
-
+	<string name="year_select">--Select--</string>
 </resources>

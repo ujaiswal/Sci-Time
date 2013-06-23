@@ -59,8 +59,7 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
 			return;
 		}
 		
-		Sci_Time appSci_Time = (Sci_Time) getApplicationContext();
-		appSci_Time.initDatabase();
+		Sci_Time.initDatabase(getApplicationContext());
 		
 		// Fire off an intent to check if a TTS engine is installed
         Intent checkIntent = new Intent();
@@ -101,8 +100,7 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)
             {
                 // success, create the TTS instance
-            	Sci_Time appSci_Time = (Sci_Time) getApplicationContext();
-        		appSci_Time.initTextToSpeech(appSci_Time, appSci_Time);
+        		Sci_Time.initTextToSpeech(getApplicationContext());
             }
             else
             {

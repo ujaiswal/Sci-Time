@@ -3,43 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView
-        android:id="@+id/text_fragment_timeline"
+
+    <LinearLayout
+        android:id="@+id/timeline_fragment_header"
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:paddingLeft="10dp"
-        android:text="@string/text_timeline"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/White"
-        android:background="@color/Black" />
-    
-    <ImageView 
+        android:layout_height="wrap_content"
+        android:background="@color/Black" >
+
+        <TextView
+            android:id="@+id/text_fragment_timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/text_timeline"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/year_list_dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:background="@android:drawable/btn_dropdown" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listContainer"
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:src="@drawable/action_bar_divider_vertical"/>
-    
-	<LinearLayout 
-	    android:id="@+id/listContainer"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" >
-	
-	    <ListView
-	        android:id="@+id/listYear"
-	        android:layout_width="@dimen/year_list_width_landscape"
-	        android:layout_height="fill_parent" />
-	    
-	    <ImageView 
-	        android:layout_width="1dp"
-	        android:layout_height="fill_parent"
-	        android:src="@drawable/action_bar_divider_vertical"/>
-	
-	    <ListView
-	        android:id="@+id/listDiscovery"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:divider="@drawable/list_view_divider_horizontal" />
-	
-	</LinearLayout>
-	
+        android:layout_height="fill_parent" >
+
+        <ListView
+            android:id="@+id/listDiscovery"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@drawable/list_view_divider_horizontal" />
+    </LinearLayout>
+
 </LinearLayout>

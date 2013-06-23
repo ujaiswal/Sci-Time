@@ -1,13 +1,14 @@
 package com.aakashiitkgp.sci_time.view.viewgroup;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
+
+import com.aakashiitkgp.sci_time.R;
 
 public class LayoutContainer extends LinearLayout {
 	
@@ -16,12 +17,6 @@ public class LayoutContainer extends LinearLayout {
 	 */
 	View menu;
 	View content;
-	
-	/**
-	 * Constants
-	 */
-	protected static final int MARGIN_LANDSCAPE = 590;
-	protected static final int MARGIN_PORTRAIT = 250;
 	
 	protected int MENU_MARGIN;
 	
@@ -39,7 +34,7 @@ public class LayoutContainer extends LinearLayout {
 	/**
 	 * Animation constants
 	 */
-	private static final int MENU_ANIMATION_DURATION = 1000;
+	private static final int MENU_ANIMATION_DURATION = 500;
 	private static final int MENU_ANIMATION_POLLING_INTERVAL = 16;
 	
 	/**
@@ -73,16 +68,7 @@ public class LayoutContainer extends LinearLayout {
 		
 		this.menu.setVisibility(View.GONE);
 		
-		switch(getResources().getConfiguration().orientation) {
-		case Configuration.ORIENTATION_LANDSCAPE:
-			MENU_MARGIN = MARGIN_LANDSCAPE;
-			break;
-		case Configuration.ORIENTATION_PORTRAIT:
-			MENU_MARGIN = MARGIN_PORTRAIT;
-			break;
-		default:
-			return;
-		}
+		MENU_MARGIN = (int) getResources().getDimension(R.dimen.menu_margin);
 	}
 	
 	@Override
