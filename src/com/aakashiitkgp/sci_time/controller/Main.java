@@ -1,3 +1,18 @@
+/*******************************************************************************
+    Copyright 2013 Utkarsh Jaiswal
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ *******************************************************************************/
 package com.aakashiitkgp.sci_time.controller;
 
 import android.app.Activity;
@@ -41,9 +56,9 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		root = (LayoutContainer) this.getLayoutInflater().inflate(R.layout.main, null);
 		
+		// Setting up root view of the main activity.
+		root = (LayoutContainer) this.getLayoutInflater().inflate(R.layout.main, null);
 		setContentView(this.root);
 		
 		// Set up fonts
@@ -55,10 +70,12 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
 		menu = (ImageView) findViewById(R.id.button_menu);
 		menu.setOnClickListener(this);
 		
+		// One-time initializations.
 		if(savedInstanceState != null) {
 			return;
 		}
 		
+		// Initializing the application database.  
 		Sci_Time.initDatabase(getApplicationContext());
 		
 		// Fire off an intent to check if a TTS engine is installed
@@ -66,6 +83,7 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, CHECK_TTS);
 		
+        // Starting the timeline fragment as the first fragment.
 		TimelineFragment fragment_timeline = new TimelineFragment();
 		getFragmentManager().beginTransaction().add(R.id.fragmentContainer, fragment_timeline).commit();
 	}
@@ -92,7 +110,7 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
 		return super.onKeyUp(keyCode, event);
 	}
 	
-	// Initialise TextToSpeech
+	// Initialize TextToSpeech
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == CHECK_TTS)
@@ -130,6 +148,7 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
 	public void getDiscoveries(Handler handler, String yearRange) {
 		Sci_Time.getDiscoveries(handler, yearRange);
 	}
+	
 	// Menu fragment interface
 	@Override
 	public void changeFragment(int selectedFragment) {

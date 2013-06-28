@@ -1,3 +1,18 @@
+/*******************************************************************************
+    Copyright 2013 Utkarsh Jaiswal
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ *******************************************************************************/
 package com.aakashiitkgp.sci_time.view.viewgroup;
 
 import android.app.Activity;
@@ -15,28 +30,39 @@ import android.widget.TextView;
 import com.aakashiitkgp.sci_time.R;
 
 public class MenuFragment extends Fragment implements OnClickListener {
-	
-	public interface MenuFragmentListener {
-		
+	// Communicate with the main activity.
+	public interface MenuFragmentListener {	
 		public void changeFragment(int selectedFragment);
 	}
-	
+	/**
+	 * The current selected menu item.
+	 */
 	private int selectedMenuItem = R.id.tab_timeline;
+	/**
+	 * The fragment listener.
+	 */
 	private MenuFragmentListener listener;
-	
+	/**
+	 * Item layouts.
+	 */
 	RelativeLayout timeline;
 	RelativeLayout discovery_tree;
 	RelativeLayout about;
-	
+	/**
+	 * Item names.
+	 */
 	TextView text_timeline;
 	TextView text_discovery_tree;
 	TextView text_about;
-	
+	/**
+	 * The fragment view.
+	 */
 	View fragmentView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Handle orientation changes.
 		setRetainInstance(true);
 	}
 	
@@ -44,7 +70,7 @@ public class MenuFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		fragmentView = inflater.inflate(R.layout.menu_list, container, false);
-		
+		// Set up everything.
 		timeline = (RelativeLayout) fragmentView.findViewById(R.id.tab_timeline);
 		timeline.setOnClickListener(this);
 		
@@ -73,7 +99,7 @@ public class MenuFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+		// Initialize listener.
 		if (activity instanceof MenuFragmentListener) {
 			 listener = (MenuFragmentListener) activity;
 			 }
@@ -81,13 +107,8 @@ public class MenuFragment extends Fragment implements OnClickListener {
 			 throw new ClassCastException(activity.toString() + " must implemenet MenuFragmentListener");
 			 }
 	}
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		
-	}
 
+	// Click actions for the menu list items.
 	@Override
 	public void onClick(View v) {
 		

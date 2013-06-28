@@ -1,7 +1,23 @@
+/*******************************************************************************
+    Copyright 2013 Utkarsh Jaiswal
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ *******************************************************************************/
 package com.aakashiitkgp.sci_time.view.viewgroup;
 
 import java.lang.ref.WeakReference;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -31,8 +47,14 @@ import com.aakashiitkgp.sci_time.controller.Sci_Time;
 
 public class TimelineFragment extends Fragment implements OnClickListener, OnItemClickListener {
 	
+	// Communicate with the main activity.
+	public interface TimelineFragmentListener {
+		public void getYearRanges(Handler handler);
+		public void getDiscoveries(Handler handler, String yearRange);
+	}
+
 	/**
-	 * The list view of year ranges;
+	 * The list view of year ranges.
 	 */
 	PopupWindow pw;
 	ListView yearList;
@@ -40,25 +62,36 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 	Cursor yearListCursor;
 	TextView yearListDropdown;
 	/**
-	 * Set up list view for discoveries
+	 * The list view of discoveries.
 	 */
 	ListView discoveryList;
 	SimpleCursorAdapter discoveryListAdapter;
 	Cursor discoveryListCursor;
-	
+	/**
+	 * The fragment heading.
+	 */
 	TextView fragmentHeading;
-	
+	/**
+	 * The fragment listener.
+	 */
 	private TimelineFragmentListener listener;
-	
+	/**
+	 * The database handler.
+	 */
 	public Handler handler;
+	/**
+	 * Current selected year range.
+	 */
 	private String selectedYearRange = "--Select--";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		// Handle orientation changes.
 		setRetainInstance(true);
 		
+		// Initialize handler.
 		handler = new DatabaseHandler(this);
 	}
 	
@@ -79,6 +112,7 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 		// Set up list view of discoveries.
 		discoveryList = (ListView) fragmentView.findViewById(R.id.listDiscovery);
 		
+		// Set up fragment heading.
 		fragmentHeading = (TextView) fragmentView.findViewById(R.id.text_fragment_timeline);
 		fragmentHeading.setTypeface(appFont);
 		
@@ -89,6 +123,7 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		
+		// Initialize the listener.
 		 if (activity instanceof TimelineFragmentListener) {
 			 listener = (TimelineFragmentListener) activity;
 			 }
@@ -101,17 +136,107 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		// Initialize the parts requiring activity context.
 		if(yearListCursor == null) {
 			listener.getYearRanges(handler);
 		}
 		yearListAdapter = new SimpleCursorAdapter(getActivity(), R.layout.year_list, yearListCursor, new String [] {"Name"}, new int [] {R.id.TableListItem}, 0);
 
-		discoveryListAdapter = new SimpleCursorAdapter(getActivity(), R.layout.discovery_list, discoveryListCursor, new String [] {"Year", "Discovery", "Discoverer"}, new int [] {R.id.text_year, R.id.text_discovery, R.id.text_discoverer}, 0);
-		
+		discoveryListAdapter = new AnimatedSimpleCursorAdapter(getActivity(), R.layout.discovery_list, discoveryListCursor, new String [] {"Year", "Discovery", "Discoverer"}, new int [] {R.id.text_year, R.id.text_discovery, R.id.text_discoverer}, 0);
 		discoveryList.setAdapter(discoveryListAdapter);
 		discoveryList.setOnItemClickListener(this);
 	}
 	
+	// Setting click action for lists.
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		
+		switch (view.getId()) {
+		case R.id.year_list:
+			pw.dismiss();
+			Cursor c = (Cursor) parent.getItemAtPosition(position);
+			if(c.getString(1).equals(selectedYearRange)) {
+				return;
+			}
+			selectedYearRange = c.getString(1);
+			yearListDropdown.setText(selectedYearRange);
+			listener.getDiscoveries(handler, selectedYearRange);
+			break;
+		case R.id.discovery_list:
+			RelativeLayout listItem = (RelativeLayout) view;
+			TextView textItem;
+			String text = new String();
+			for (int i = 0 ; i < listItem.getChildCount() ; i++ ) {
+				textItem = (TextView) listItem.getChildAt(i);
+				text += textItem.getText();
+				text += ". ";
+			}
+			Sci_Time.speak(text);
+			break;
+		default:
+			break;
+		}
+	}
+		
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.year_list_dropdown:
+			initPopUpWindow();
+			break;
+		default:
+			break;
+		}
+	}
+		
+	// Dispose-off objects.
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		yearListCursor.close();
+		if(discoveryListCursor != null) {
+			discoveryListCursor.close();
+		}
+		handler = null;
+	}
+
+	// Initializes PopUp window.
+	private void initPopUpWindow () {
+		
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		yearList = (ListView) inflater.inflate(R.layout.year_listview, null);
+		
+		pw = new PopupWindow(yearList, getResources().getDimensionPixelSize(R.dimen.year_list_width), LayoutParams.WRAP_CONTENT, true);
+    	
+		// Pop-up window background cannot be null if we want the pop-up to listen touch events outside its window
+    	pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.content_background));
+    	pw.setTouchable(true);
+    	
+    	// let pop-up be informed about touch events outside its window. This  should be done before setting the content of pop-up
+    	pw.setOutsideTouchable(true);
+    	
+    	// dismiss the pop-up i.e. drop-down when touched anywhere outside the pop-up
+    	pw.setTouchInterceptor(new OnTouchListener() {
+    		
+    		public boolean onTouch(View v, MotionEvent event) {
+    			// TODO Auto-generated method stub
+    			if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+    				pw.dismiss();
+        			return true;    				
+    			}
+    			return false;
+    		}
+    	});
+    	
+    	// populate the drop-down list
+    	yearList.setAdapter(yearListAdapter);
+		yearList.setOnItemClickListener(this);
+		
+		// anchor the drop-down to bottom-left
+    	pw.showAsDropDown(yearListDropdown);
+	}
+
 	private static class DatabaseHandler extends Handler {
 		private final WeakReference<TimelineFragment> mFragment;
 		
@@ -133,6 +258,7 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 				case Sci_Time.TRANSMIT_DISCOVERIES:
 					fragment.discoveryListCursor = (Cursor) msg.obj;
 					fragment.discoveryListAdapter.changeCursor(fragment.discoveryListCursor);
+					fragment.discoveryList.setSelection(0);
 					break;
 				case Sci_Time.NO_TRANSMISSION_WAIT:
 					Toast wait = Toast.makeText(fragment.getActivity(), "Loading...\nPlease wait!", Toast.LENGTH_SHORT);
@@ -141,104 +267,24 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 				default:
 					break;
 				}
-		}
+			}
 		}
 	}
 
-	public interface TimelineFragmentListener {
-		public void getYearRanges(Handler handler);
-		public void getDiscoveries(Handler handler, String yearRange);
+	private class AnimatedSimpleCursorAdapter extends SimpleCursorAdapter {
+	
+		public AnimatedSimpleCursorAdapter(Context context, int layout,
+				Cursor c, String[] from, int[] to, int flags) {
+			super(context, layout, c, from, to, flags);
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = super.getView(position, convertView, parent);
+			
+			ObjectAnimator.ofFloat(v, "alpha", 0f, 1f).setDuration(500).start();
+			
+			return v;
+		}
 	}
-
-	// Setting click action for lists.
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			
-			switch (view.getId()) {
-			case R.id.year_list:
-				Cursor c = (Cursor) parent.getItemAtPosition(position);
-				if(c.getString(1).equals(selectedYearRange)) {
-					return;
-				}
-				selectedYearRange = c.getString(1);
-				yearListDropdown.setText(selectedYearRange);
-				pw.dismiss();
-				listener.getDiscoveries(handler, selectedYearRange);
-				break;
-			case R.id.discovery_list:
-				RelativeLayout listItem = (RelativeLayout) view;
-				TextView textItem;
-				String text = new String();
-				for (int i = 0 ; i < listItem.getChildCount() ; i++ ) {
-					textItem = (TextView) listItem.getChildAt(i);
-					text += textItem.getText();
-					text += ". ";
-				}
-				Sci_Time.speak(text);
-				break;
-			default:
-				break;
-			}
-		}
-		
-		
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.year_list_dropdown:
-				initPopUpWindow();
-				break;
-			default:
-				break;
-			}
-		}
-		
-		private void initPopUpWindow () {
-			
-			LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			
-			yearList = (ListView) inflater.inflate(R.layout.year_listview, null);
-			
-			pw = new PopupWindow(yearList, getResources().getDimensionPixelSize(R.dimen.year_list_width), LayoutParams.WRAP_CONTENT, true);
-	    	
-			//Pop-up window background cannot be null if we want the pop-up to listen touch events outside its window
-	    	pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.content_background));
-	    	pw.setTouchable(true);
-	    	
-	    	//let pop-up be informed about touch events outside its window. This  should be done before setting the content of pop-up
-	    	pw.setOutsideTouchable(true);
-	    	
-	    	//dismiss the pop-up i.e. drop-down when touched anywhere outside the pop-up
-	    	pw.setTouchInterceptor(new OnTouchListener() {
-	    		
-	    		public boolean onTouch(View v, MotionEvent event) {
-	    			// TODO Auto-generated method stub
-	    			if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-	    				pw.dismiss();
-	        			return true;    				
-	    			}
-	    			return false;
-	    		}
-	    	});
-	    	
-	    	//populate the drop-down list
-	    	yearList.setAdapter(yearListAdapter);
-			yearList.setOnItemClickListener(this);
-			
-			//anchor the drop-down to bottom-left
-	    	pw.showAsDropDown(yearListDropdown);
-		}
-		
-   // Disposing of objects.
-		@Override
-		public void onDestroy() {
-			super.onDestroy();
-			yearListCursor.close();
-			if(discoveryListCursor != null) {
-				discoveryListCursor.close();
-			}
-			handler = null;
-			selectedYearRange = null;
-		}
-
 }
