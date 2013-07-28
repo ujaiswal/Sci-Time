@@ -149,6 +149,18 @@ public class Main extends Activity implements OnClickListener, TimelineFragmentL
 		Sci_Time.getDiscoveries(handler, yearRange);
 	}
 	
+	@Override
+	public void getArticle(Handler handler, String yearRange, String title) {
+		Sci_Time.getArticle(handler, yearRange, title);
+	}
+	
+	@Override
+	public void startArticleActivity(Bundle extras) {
+		Intent article_intent = new Intent(this, Article.class);
+		article_intent.putExtras(extras);
+		startActivity(article_intent);
+	}
+	
 	// Menu fragment interface
 	@Override
 	public void changeFragment(int selectedFragment) {

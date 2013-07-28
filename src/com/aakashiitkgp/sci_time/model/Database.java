@@ -55,7 +55,7 @@ public class Database extends SQLiteAssetHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-		String [] sqlSelect = {"0 _id", "Year", "Discovery", "Discoverer"};
+		String [] sqlSelect = {"0 _id", "Title"};
 		String sqlTable = "[" + yearRange + "]";
 		
 		qb.setTables(sqlTable);
@@ -63,6 +63,22 @@ public class Database extends SQLiteAssetHelper {
 		c.moveToFirst();
 		
 		return c;
+	}
+	
+	public Cursor getArticle(String yearRange, String title) {
+		SQLiteDatabase db = getReadableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		String [] sqlSelect = {"0 _id", "Title", "Image", "Discovery", "Year", "Discoverer", "Tags"};
+		String sqlTable = "[" + yearRange + "]";
+		String sqlWhere = "Title" + "=?";
+		String [] sqlSelectionArgs = {title};
+		
+		qb.setTables(sqlTable);
+		Cursor c = qb.query(db, sqlSelect, sqlWhere, sqlSelectionArgs, null, null, null);
+		c.moveToFirst();
+		return c;
+		
 	}
 
 }

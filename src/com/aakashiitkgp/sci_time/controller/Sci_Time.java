@@ -35,11 +35,13 @@ public class Sci_Time extends Application {
 	public static final int NO_TRANSMISSION_WAIT = 0;
 	public static final int TRANSMIT_YEAR_RANGE = 1;
 	public static final int TRANSMIT_DISCOVERIES = 2;
+	public static final int TRANSMIT_ARTICLE = 3;
 	/**
 	 * The background working threads.
 	 */
 	private static Thread yearRangeThread;
 	private static Thread discoveryThread;
+	private static Thread articleThread;
 	/**
 	 * The applications TextToSpeech engine.
 	 */
@@ -129,10 +131,41 @@ public class Sci_Time extends Application {
 		
 	}
 	
+	// Get article in a worker thread.
+	public static void getArticle(final Handler handler, final String yearRange, final String title) {
+		// Check whether the thread is currently active.
+				if(articleThread != null && articleThread.isAlive()) {
+					Message msg = handler.obtainMessage();
+					msg.what = Sci_Time.NO_TRANSMISSION_WAIT;
+					handler.sendMessage(msg);
+					return;
+				}
+				
+				// Initialize the worker thread.	
+				articleThread =  new Thread() {
+					@Override
+					public void run() {
+						// Obtain the messages from global pool of messages.
+						Message msg = handler.obtainMessage();
+						
+						// Setup the objects to be sent to the UI thread.
+						msg.what = Sci_Time.TRANSMIT_ARTICLE;
+						msg.obj = sci_timeDatabase.getArticle(yearRange, title);
+						
+						// Send the message.
+						handler.sendMessage(msg);	
+					}
+				};
+				
+				// Start the thread
+				articleThread.start();
+	}
+	
 	// Dispose-off everything.
 	public static void close() {
 		yearRangeThread = null;
 		discoveryThread = null;
+		articleThread = null;
 		if (sci_timeTextToSpeech != null) {
 			sci_timeTextToSpeech.stop();
 			sci_timeTextToSpeech.shutdown();

@@ -51,6 +51,8 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 	public interface TimelineFragmentListener {
 		public void getYearRanges(Handler handler);
 		public void getDiscoveries(Handler handler, String yearRange);
+		public void getArticle(Handler handler, String yearRange, String title);
+		public void startArticleActivity(Bundle extras);
 	}
 
 	/**
@@ -142,7 +144,7 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 		}
 		yearListAdapter = new SimpleCursorAdapter(getActivity(), R.layout.year_list, yearListCursor, new String [] {"Name"}, new int [] {R.id.TableListItem}, 0);
 
-		discoveryListAdapter = new AnimatedSimpleCursorAdapter(getActivity(), R.layout.discovery_list, discoveryListCursor, new String [] {"Year", "Discovery", "Discoverer"}, new int [] {R.id.text_year, R.id.text_discovery, R.id.text_discoverer}, 0);
+		discoveryListAdapter = new AnimatedSimpleCursorAdapter(getActivity(), R.layout.discovery_list, discoveryListCursor, new String [] {"Title"}, new int [] {R.id.discovery_title}, 0);
 		discoveryList.setAdapter(discoveryListAdapter);
 		discoveryList.setOnItemClickListener(this);
 	}
@@ -165,13 +167,9 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 		case R.id.discovery_list:
 			RelativeLayout listItem = (RelativeLayout) view;
 			TextView textItem;
-			String text = new String();
-			for (int i = 0 ; i < listItem.getChildCount() ; i++ ) {
-				textItem = (TextView) listItem.getChildAt(i);
-				text += textItem.getText();
-				text += ". ";
-			}
-			Sci_Time.speak(text);
+			textItem = (TextView) listItem.getChildAt(0);
+			String text = (String) textItem.getText();
+			listener.getArticle(handler, (String) yearListDropdown.getText(), text);
 			break;
 		default:
 			break;
@@ -220,7 +218,6 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
     	pw.setTouchInterceptor(new OnTouchListener() {
     		
     		public boolean onTouch(View v, MotionEvent event) {
-    			// TODO Auto-generated method stub
     			if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
     				pw.dismiss();
         			return true;    				
@@ -259,6 +256,17 @@ public class TimelineFragment extends Fragment implements OnClickListener, OnIte
 					fragment.discoveryListCursor = (Cursor) msg.obj;
 					fragment.discoveryListAdapter.changeCursor(fragment.discoveryListCursor);
 					fragment.discoveryList.setSelection(0);
+					break;
+				case Sci_Time.TRANSMIT_ARTICLE:
+					Cursor c = (Cursor) msg.obj;
+					Bundle extras = new Bundle();
+					extras.putString("Title", c.getString(1));
+					extras.putByteArray("Image", c.getBlob(2));
+					extras.putString("Discovery", c.getString(3));
+					extras.putString("Year", c.getString(4));
+					extras.putString("Discoverer", c.getString(5));
+					c.close();
+					fragment.listener.startArticleActivity(extras);
 					break;
 				case Sci_Time.NO_TRANSMISSION_WAIT:
 					Toast wait = Toast.makeText(fragment.getActivity(), "Loading...\nPlease wait!", Toast.LENGTH_SHORT);
